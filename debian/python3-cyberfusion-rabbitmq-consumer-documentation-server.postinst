@@ -21,8 +21,7 @@ case "$1" in
         # Packages are not available for Debian. Instead of building, publishing
         # and maintaining it for this purpose only, install it from PyPI.
 
-        /usr/bin/pip3 install json-schema-for-humans==1.0.2 --break-system-packages
-        /usr/bin/pip3 install datamodel-code-generator==0.25.9 --break-system-packages
+        /usr/bin/pip3 install -r /usr/share/rabbitmq-consumer-documentation-server/debian_postinst.txt --break-system-packages
     ;;
 
     triggered)

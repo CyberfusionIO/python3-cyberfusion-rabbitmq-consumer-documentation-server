@@ -4,7 +4,11 @@
     "config:recommended"
   ],
   "pip_requirements": {
-    "fileMatch": ["requirements/dev.txt", "requirements/test.txt"]
+    "fileMatch": [
+      "requirements/dev.txt",
+      "requirements/test.txt",
+      "usr/share/rabbitmq-consumer-documentation-server/debian_postinst.txt"
+    ]
   },
   "pre-commit": {
     "enabled": true
