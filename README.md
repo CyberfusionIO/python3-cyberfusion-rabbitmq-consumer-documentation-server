@@ -1,12 +1,26 @@
 # python3-cyberfusion-rabbitmq-consumer-documentation-server
 
-Auto-generated documentation server for RPC exchange responses and requests.
+Documentation server for RPC exchange responses and requests.
+
+Human-readable HTML documentation is served, as well as [JSON schemas](https://json-schema.org/).
+
+## HTML documentation
+
+URL: `/html`
 
 ![HTML documentation: request](assets/request.png)
 *Request*
 
 ![HTML documentation: response](assets/response.png)
 *Response*
+
+## JSON schemas
+
+URL: `/schemas`
+
+The root returns a list of schemas. Every schema can be accessed as a subpath. For example: `/schemas/dx_example.json`
+
+The list always includes a schema called `head.json`. This schema includes all schemas.
 
 # Install
 
@@ -43,10 +57,6 @@ No configuration is supported.
 
 * `HOST` (`--host`). Default: `::`
 * `PORT` (`--port`). Default: `9012`
-
-## Web server
-
-On the given host and port, a web server is started. It serves the documentation.
 
 # Tests
 

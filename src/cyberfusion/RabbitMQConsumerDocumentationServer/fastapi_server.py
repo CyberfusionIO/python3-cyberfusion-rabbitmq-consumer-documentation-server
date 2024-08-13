@@ -1,9 +1,9 @@
 """FastAPI-based server, serving documentation and schemas."""
 
-from http import HTTPStatus
+import os
 
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
@@ -26,15 +26,19 @@ def get_app() -> FastAPI:
         redoc_url=None,
     )
 
-    @app.get("/")  # type: ignore[misc]
-    def root() -> RedirectResponse:
-        """Redirect from / to HTML documentation."""
-        return RedirectResponse(
-            f"{PREFIX_HTML}/{html_file}",
-            status_code=HTTPStatus.PERMANENT_REDIRECT,
+    @app.get(PREFIX_HTML)  # type: ignore[misc]
+    def show_documentation() -> HTMLResponse:
+        """Show documentation."""
+        return HTMLResponse(
+            open(os.path.join(documentation_directory, html_file), "r").read()
         )
 
-    app.mount(
+    @app.get(PREFIX_SCHEMAS)  # type: ignore[misc]
+    def list_schemas() -> JSONResponse:
+        """List schemas."""
+        return JSONResponse(os.listdir(schemas_directory))
+
+    app.mount(  # Serve `js` + `css` + `font`
         PREFIX_HTML, StaticFiles(directory=documentation_directory, html=True)
     )
     app.mount(
