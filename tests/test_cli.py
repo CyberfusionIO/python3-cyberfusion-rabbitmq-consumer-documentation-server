@@ -1,17 +1,10 @@
 import docopt
-import pytest
 from pytest_mock import MockerFixture
 
-from cyberfusion.RabbitMQConsumer.config import Config
 from cyberfusion.RabbitMQConsumerDocumentationServer import cli
 
 
-def test_cli_get_args():
-    with pytest.raises(SystemExit):
-        cli.get_args()
-
-
-def test_cli_run(rabbitmq_config: Config, mocker: MockerFixture) -> None:
+def test_cli_run(mocker: MockerFixture) -> None:
     HOST = "::"
     PORT = 9013
 
@@ -20,8 +13,6 @@ def test_cli_run(rabbitmq_config: Config, mocker: MockerFixture) -> None:
         return_value=docopt.docopt(
             cli.__doc__,
             [
-                "--config-file-path",
-                rabbitmq_config.path,
                 "--host",
                 "::",
                 "--port",

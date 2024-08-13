@@ -33,9 +33,7 @@ No configuration is supported.
 
 ### Manually
 
-    /usr/bin/rabbitmq-consumer-documentation-server --config-file-path=... --host=:: --port=9012
-
-Set `--config-file-path` to the RabbitMQ consumer config file.
+    /usr/bin/rabbitmq-consumer-documentation-server --host=:: --port=9012
 
 ### systemd
 
@@ -43,7 +41,6 @@ Set `--config-file-path` to the RabbitMQ consumer config file.
 
 #### Environment variables
 
-* `CONFIG_FILE_PATH` (`--config-file-path`). Default: `/etc/cyberfusion/rabbitmq.yml`
 * `HOST` (`--host`). Default: `::`
 * `PORT` (`--port`). Default: `9012`
 
