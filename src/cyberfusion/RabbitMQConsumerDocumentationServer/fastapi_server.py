@@ -10,7 +10,6 @@ from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
     generate_html_documentation,
 )
 
-PREFIX_HTML = "/html"
 PREFIX_SCHEMAS = "/schemas"
 
 
@@ -26,7 +25,7 @@ def get_app() -> FastAPI:
         redoc_url=None,
     )
 
-    @app.get(PREFIX_HTML)  # type: ignore[misc]
+    @app.get("/")  # type: ignore[misc]
     def show_html_documentation() -> HTMLResponse:
         """Show HTML documentation."""
         return HTMLResponse(
@@ -40,12 +39,12 @@ def get_app() -> FastAPI:
         """List schemas."""
         return JSONResponse(os.listdir(schemas_directory))
 
-    app.mount(  # Serve `js` + `css` + `font`
-        PREFIX_HTML,
-        StaticFiles(directory=html_documentation_directory, html=True),
-    )
     app.mount(
         PREFIX_SCHEMAS, StaticFiles(directory=schemas_directory, html=True)
+    )
+    app.mount(  # Serve `js` + `css` + `font`
+        "/",
+        StaticFiles(directory=html_documentation_directory, html=True),
     )
 
     return app

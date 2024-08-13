@@ -4,7 +4,6 @@ from typing import Tuple
 from fastapi.testclient import TestClient
 
 from cyberfusion.RabbitMQConsumerDocumentationServer.fastapi_server import (
-    PREFIX_HTML,
     PREFIX_SCHEMAS,
 )
 from tests._utilities import get_first_file_in_directory
@@ -17,7 +16,7 @@ def test_html_root(
     schemas_directory_path: str,
     html_documentation_directory_path: str,
 ) -> None:
-    response = server_test_client.get(PREFIX_HTML)
+    response = server_test_client.get("/")
 
     assert response.status_code == 200
     assert response.text
@@ -32,7 +31,7 @@ def test_html_sub(
 ) -> None:
     file_ = get_first_file_in_directory(html_documentation_directory_path)
 
-    url = PREFIX_HTML + "/" + file_
+    url = "/" + file_
 
     response = server_test_client.get(url)
 

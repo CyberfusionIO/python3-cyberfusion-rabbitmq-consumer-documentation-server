@@ -6,7 +6,7 @@ Human-readable HTML documentation is served, as well as [JSON schemas](https://j
 
 ## HTML documentation
 
-URL: `/html`
+URL: `/`
 
 ![HTML documentation: request](assets/request.png)
 *Request*
