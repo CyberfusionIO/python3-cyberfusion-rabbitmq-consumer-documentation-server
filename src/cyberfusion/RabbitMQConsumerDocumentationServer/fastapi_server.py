@@ -39,12 +39,12 @@ def get_app() -> FastAPI:
         """List schemas."""
         return JSONResponse(os.listdir(schemas_directory))
 
+    app.mount(
+        PREFIX_SCHEMAS, StaticFiles(directory=schemas_directory, html=True)
+    )
     app.mount(  # Serve `js` + `css` + `font`
         "/",
         StaticFiles(directory=html_documentation_directory, html=True),
-    )
-    app.mount(
-        PREFIX_SCHEMAS, StaticFiles(directory=schemas_directory, html=True)
     )
 
     return app
