@@ -6,7 +6,6 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from cyberfusion.RabbitMQConsumer.config import Config
 from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
     generate_documentation,
 )
@@ -15,10 +14,10 @@ PREFIX_HTML = "/html"
 PREFIX_SCHEMAS = "/schemas"
 
 
-def get_app(config: Config) -> FastAPI:
+def get_app() -> FastAPI:
     """Get FastAPI app."""
     html_file, documentation_directory, schemas_directory = (
-        generate_documentation(config)
+        generate_documentation()
     )
 
     app = FastAPI(

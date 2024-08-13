@@ -22,8 +22,6 @@ unit test and feature test:
     - apt-get -y install python3-cyberfusion-common python3-cyberfusion-rabbitmq-consumer python3-fastapi python3-pydantic python3-docopt python3-schema python3-uvicorn
     - pip install --no-cache-dir -r requirements/test.txt
     - pip install --no-cache-dir json-schema-for-humans==1.0.2
-    - unlink rabbitmq.yml
-    - ln -s rabbitmq.ci.yml rabbitmq.yml
     - PYTHONPATH=$CI_PROJECT_DIR/src:/usr/lib/python3/dist-packages pytest -vvv --cov-branch --cov=cyberfusion.RabbitMQConsumerDocumentationServer --cov-config=.coveragerc --cov-fail-under=100 --junitxml=report-pytest.xml
   artifacts:
     reports:

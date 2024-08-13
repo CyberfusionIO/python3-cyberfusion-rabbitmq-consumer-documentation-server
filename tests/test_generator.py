@@ -2,7 +2,6 @@ import json
 import os
 from typing import List
 
-from cyberfusion.RabbitMQConsumer.config import Config
 from cyberfusion.RabbitMQConsumer.contracts import RPCResponseBase
 from cyberfusion.RabbitMQConsumerDocumentationServer import generator
 from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
@@ -20,9 +19,9 @@ from cyberfusion.RabbitMQHandlers.exchanges.dx_example import (
 )
 
 
-def test_generate_documentation(rabbitmq_config: Config) -> None:
+def test_generate_documentation() -> None:
     html_file, documentation_directory, schemas_directory = (
-        generator.generate_documentation(rabbitmq_config)
+        generator.generate_documentation()
     )
 
     assert os.path.isdir(documentation_directory)
@@ -78,22 +77,22 @@ def test_create_exchange_to_model_schemas(
         )
         assert schema["type"] == "object"
         assert schema["properties"] == {
-            "request_class": {
+            "request_model": {
                 "$ref": "#/definitions/"
-                + exchange_to_classes_mappings[idx].request_class.__name__
+                + exchange_to_classes_mappings[idx].request_model.__name__
             },
-            "response_class": {
+            "response_model": {
                 "$ref": "#/definitions/"
-                + exchange_to_classes_mappings[idx].response_class.__name__
+                + exchange_to_classes_mappings[idx].response_model.__name__
             },
         }
-        assert schema["required"] == ["request_class", "response_class"]
+        assert schema["required"] == ["request_model", "response_model"]
         assert (
-            exchange_to_classes_mappings[idx].request_class.__name__
+            exchange_to_classes_mappings[idx].request_model.__name__
             in schema["definitions"]
         )
         assert (
-            exchange_to_classes_mappings[idx].response_class.__name__
+            exchange_to_classes_mappings[idx].response_model.__name__
             in schema["definitions"]
         )
 
