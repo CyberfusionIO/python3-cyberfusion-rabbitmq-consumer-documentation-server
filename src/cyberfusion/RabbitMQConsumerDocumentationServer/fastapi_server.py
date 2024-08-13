@@ -25,7 +25,7 @@ def get_app() -> FastAPI:
         redoc_url=None,
     )
 
-    @app.get('/')  # type: ignore[misc]
+    @app.get("/")  # type: ignore[misc]
     def show_html_documentation() -> HTMLResponse:
         """Show HTML documentation."""
         return HTMLResponse(
@@ -40,7 +40,7 @@ def get_app() -> FastAPI:
         return JSONResponse(os.listdir(schemas_directory))
 
     app.mount(  # Serve `js` + `css` + `font`
-        '/',
+        "/",
         StaticFiles(directory=html_documentation_directory, html=True),
     )
     app.mount(

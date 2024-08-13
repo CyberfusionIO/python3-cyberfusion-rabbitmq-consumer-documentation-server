@@ -16,7 +16,7 @@ def test_html_root(
     schemas_directory_path: str,
     html_documentation_directory_path: str,
 ) -> None:
-    response = server_test_client.get('/')
+    response = server_test_client.get("/")
 
     assert response.status_code == 200
     assert response.text
@@ -31,7 +31,7 @@ def test_html_sub(
 ) -> None:
     file_ = get_first_file_in_directory(html_documentation_directory_path)
 
-    url =  "/" + file_
+    url = "/" + file_
 
     response = server_test_client.get(url)
 
