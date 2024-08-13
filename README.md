@@ -25,15 +25,15 @@ URL: `/schemas`
 
 The root returns a list of schemas. Every schema can be accessed as a subpath. For example: `/schemas/dx_example.json`
 
-The list always includes a schema called `head.json`. This schema includes all schemas.
+The list always includes a schema called `head.json`. This schema includes all schemas (using [`allOf`](https://json-schema.org/understanding-json-schema/reference/combining#allOf)).
 
 ## Pydantic model generation
 
 Automatically generate [Pydantic](https://docs.pydantic.dev/latest/) for request/response models of all installed exchanges.
 
-One Python file (containing Pydantic models) is written per exchange, in a single directory (which is output to stdout).
+Per exchange, one Python file (containing Pydantic models) is written. All Python files are written to single directory (path is output to stdout).
 
-Example:
+Example with [`dx_example`](https://github.com/CyberfusionIO/python3-cyberfusion-rabbitmq-consumer/blob/master/src/cyberfusion/RabbitMQHandlers/exchanges/dx_example/__init__.py):
 
 ```bash
 $ rabbitmq-consumer-documentation-server create-client-models
@@ -126,14 +126,14 @@ No configuration is supported.
 
     systemctl start rabbitmq-consumer-documentation-server.service
 
-## Generate Pydantic models
-
-See '[Pydantic model generation](#pydantic-model-generation)'.
-
 #### Environment variables
 
 * `HOST` (`--host`). Default: `::`
 * `PORT` (`--port`). Default: `9012`
+
+## Generate Pydantic models
+
+See '[Pydantic model generation](#pydantic-model-generation)'.
 
 # Tests
 
