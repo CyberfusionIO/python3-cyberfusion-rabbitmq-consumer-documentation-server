@@ -48,7 +48,9 @@ def _create_schemas_directory() -> str:
 
 def _create_html_documentation_directory() -> str:
     """Create directory which contains HTML documentation (based on JSON schemas)."""
-    path = os.path.join(os.path.sep, "tmp", "html-documentation-" + str(uuid.uuid4()))
+    path = os.path.join(
+        os.path.sep, "tmp", "html-documentation-" + str(uuid.uuid4())
+    )
 
     os.mkdir(path)
 
