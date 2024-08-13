@@ -29,8 +29,8 @@ NAME_SCHEMA_HEAD = "head"
 
 
 @dataclass
-class ExchangeToClassesMapping:
-    """Mapping from specific exchange to its request and response classes."""
+class ExchangeToModelsMapping:
+    """Mapping from specific exchange to its request and response models."""
 
     exchange_name: str
     request_model: RPCRequestBase
@@ -46,8 +46,8 @@ def _create_schemas_directory() -> str:
     return path
 
 
-def _create_documentation_directory() -> str:
-    """Create directory which contains documentation (HTML based on JSON schemas)."""
+def _create_html_documentation_directory() -> str:
+    """Create directory which contains HTML documentation (based on JSON schemas)."""
     path = os.path.join(os.path.sep, "tmp", "result-" + str(uuid.uuid4()))
 
     os.mkdir(path)
@@ -74,8 +74,8 @@ def _inject_default_examples(
     return response_model
 
 
-def _create_exchange_to_classes_mappings() -> List[ExchangeToClassesMapping]:
-    """Map all exchanges to their request and response classes."""
+def _create_exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
+    """Map all exchanges to their request and response models."""
     mappings = []
 
     modules = import_installed_handler_modules()
@@ -91,7 +91,7 @@ def _create_exchange_to_classes_mappings() -> List[ExchangeToClassesMapping]:
         response_model = _inject_default_examples(response_model)
 
         mappings.append(
-            ExchangeToClassesMapping(
+            ExchangeToModelsMapping(
                 exchange_name=module.__name__,
                 request_model=request_model,
                 response_model=response_model,
@@ -102,41 +102,43 @@ def _create_exchange_to_classes_mappings() -> List[ExchangeToClassesMapping]:
 
 
 def _create_exchange_to_model_schemas(
-    schemas_directory: str,
-    exchange_to_classes_mappings: List[ExchangeToClassesMapping],
+    schemas_directory_path: str,
+    exchange_to_models_mappings: List[ExchangeToModelsMapping],
 ) -> List[str]:
     """Create exchange to model mapping (which request/response models belong to which exchange)."""
-    models = []
-    schema_files = []
+    mapping_models = []
+    schemas_files_paths = []
 
-    # Construct models
+    # Construct mapping models
 
-    for mapping in exchange_to_classes_mappings:
+    for mapping in exchange_to_models_mappings:
         model = create_model(
             mapping.exchange_name,
             request_model=(mapping.request_model, ...),
             response_model=(mapping.response_model, ...),
         )
 
-        models.append(model)
+        mapping_models.append(model)
 
     # Write schemas of models to files
 
-    for model in models:
-        schema_file = os.path.join(schemas_directory, model.__name__) + ".json"
+    for model in mapping_models:
+        schema_file_path = (
+            os.path.join(schemas_directory_path, model.__name__) + ".json"
+        )
 
-        with open(schema_file, "w") as f:
+        with open(schema_file_path, "w") as f:
             json_schema = model.schema_json()
 
             f.write(json_schema)
 
-        schema_files.append(schema_file)
+        schemas_files_paths.append(schema_file_path)
 
-    return schema_files
+    return schemas_files_paths
 
 
 def _create_head_schema(
-    schema_files: List[str], schemas_directory: str
+    schemas_files_paths: List[str], schemas_directory_path: str
 ) -> str:
     """Create head schema.
 
@@ -144,25 +146,27 @@ def _create_head_schema(
     JSON schemas without the need to merge them.
     """
 
-    # Construct schema
+    # Construct head schema
 
     head_schema: Dict[str, List[Dict[str, str]]] = {"allOf": []}
 
-    for schema_file in schema_files:
-        head_schema["allOf"].append({"$ref": schema_file})
+    for schema_file_path in schemas_files_paths:
+        head_schema["allOf"].append({"$ref": schema_file_path})
 
-    # Write schema
+    # Write head schema
 
-    path = os.path.join(schemas_directory, NAME_SCHEMA_HEAD + ".json")
+    head_schema_path = os.path.join(
+        schemas_directory_path, NAME_SCHEMA_HEAD + ".json"
+    )
 
-    with open(path, "w") as f:
+    with open(head_schema_path, "w") as f:
         f.write(json.dumps(head_schema))
 
-    return path
+    return head_schema_path
 
 
-def _create_documentation(schema: str, schemas_directory: str) -> str:
-    """Create documentation (HTML based on JSON schemas)."""
+def _create_html_documentation(schema: str, schemas_directory: str) -> str:
+    """Create HTML documentation (HTML based on JSON schemas)."""
 
     # json-schema-for-humans provides a Python API, but not for creating
     # documentation for multiple schemas, while the CLI does. The methods
@@ -182,26 +186,34 @@ def _create_documentation(schema: str, schemas_directory: str) -> str:
     return Path(schema).stem + ".html"
 
 
-def generate_documentation() -> Tuple[str, str, str]:
+def generate_html_documentation() -> Tuple[str, str, str]:
     """Generate HTML documentation for exchanges' request and response models."""
-    schemas_directory = _create_schemas_directory()
-    documentation_directory = _create_documentation_directory()
+    schemas_directory_path = _create_schemas_directory()
+    html_documentation_directory_path = _create_html_documentation_directory()
 
     # For every exchange, create schemas for its request and response models
 
-    exchange_to_classes_mappings = _create_exchange_to_classes_mappings()
-    schema_files = _create_exchange_to_model_schemas(
-        schemas_directory, exchange_to_classes_mappings
+    exchange_to_models_mappings = _create_exchange_to_models_mappings()
+    schemas_files_paths = _create_exchange_to_model_schemas(
+        schemas_directory_path, exchange_to_models_mappings
     )
 
     # Create head schema, which references all aforementioned schemas. Pydantic
     # v1 does not support creating a single JSON schema for multiple models.
 
-    head_schema = _create_head_schema(schema_files, schemas_directory)
+    head_schema_path = _create_head_schema(
+        schemas_files_paths, schemas_directory_path
+    )
 
     # Create a single documentation page for all schemas, by referencing the
     # head schema that includes them
 
-    html_file = _create_documentation(head_schema, documentation_directory)
+    html_file_path = _create_html_documentation(
+        head_schema_path, html_documentation_directory_path
+    )
 
-    return html_file, documentation_directory, schemas_directory
+    return (
+        html_file_path,
+        html_documentation_directory_path,
+        schemas_directory_path,
+    )
