@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Environment=HOST='::'
 Environment=PORT=9012
-ExecStart=/usr/bin/rabbitmq-consumer-documentation-server --host $HOST --port $PORT
+ExecStart=/usr/bin/rabbitmq-consumer-documentation-server run-server --host $HOST --port $PORT
 Restart=on-failure
 RestartSec=120
 PrivateTmp=true

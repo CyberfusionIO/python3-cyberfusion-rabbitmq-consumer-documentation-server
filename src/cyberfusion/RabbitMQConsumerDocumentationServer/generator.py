@@ -6,7 +6,6 @@ This module provides all facilities to create documentation.
 import json
 import os
 import subprocess
-import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple
@@ -23,6 +22,9 @@ from cyberfusion.RabbitMQConsumer.utilities import (
     get_exchange_handler_class_response_model,
     import_installed_handler_modules,
 )
+from cyberfusion.RabbitMQConsumerDocumentationServer.utilities import (
+    get_tmp_path,
+)
 
 KEY_EXAMPLES = "examples"
 NAME_SCHEMA_HEAD = "head"
@@ -37,9 +39,9 @@ class ExchangeToModelsMapping:
     response_model: RPCResponseBase
 
 
-def _create_schemas_directory() -> str:
+def create_schemas_directory() -> str:
     """Create directory which contains JSON schemas."""
-    path = os.path.join(os.path.sep, "tmp", "schemas-" + str(uuid.uuid4()))
+    path = get_tmp_path()
 
     os.mkdir(path)
 
@@ -48,9 +50,7 @@ def _create_schemas_directory() -> str:
 
 def _create_html_documentation_directory() -> str:
     """Create directory which contains HTML documentation (based on JSON schemas)."""
-    path = os.path.join(
-        os.path.sep, "tmp", "html-documentation-" + str(uuid.uuid4())
-    )
+    path = get_tmp_path()
 
     os.mkdir(path)
 
@@ -76,7 +76,7 @@ def _inject_default_examples(
     return response_model
 
 
-def _create_exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
+def create_exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
     """Map all exchanges to their request and response models."""
     mappings = []
 
@@ -103,7 +103,7 @@ def _create_exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
     return mappings
 
 
-def _create_exchange_to_model_schemas(
+def create_exchange_to_model_schemas(
     schemas_directory_path: str,
     exchange_to_models_mappings: List[ExchangeToModelsMapping],
 ) -> List[str]:
@@ -167,7 +167,9 @@ def _create_head_schema(
     return head_schema_path
 
 
-def _create_html_documentation(schema: str, schemas_directory: str) -> str:
+def _create_html_documentation(
+    schema: str, schemas_directory_path: str
+) -> str:
     """Create HTML documentation (HTML based on JSON schemas)."""
 
     # json-schema-for-humans provides a Python API, but not for creating
@@ -183,7 +185,7 @@ def _create_html_documentation(schema: str, schemas_directory: str) -> str:
             "--config",
             "with_footer=false",
             schema,
-            schemas_directory,
+            schemas_directory_path,
         ]
     )
 
@@ -192,13 +194,13 @@ def _create_html_documentation(schema: str, schemas_directory: str) -> str:
 
 def generate_html_documentation() -> Tuple[str, str, str]:
     """Generate HTML documentation for exchanges' request and response models."""
-    schemas_directory_path = _create_schemas_directory()
+    schemas_directory_path = create_schemas_directory()
     html_documentation_directory_path = _create_html_documentation_directory()
 
     # For every exchange, create schemas for its request and response models
 
-    exchange_to_models_mappings = _create_exchange_to_models_mappings()
-    schemas_files_paths = _create_exchange_to_model_schemas(
+    exchange_to_models_mappings = create_exchange_to_models_mappings()
+    schemas_files_paths = create_exchange_to_model_schemas(
         schemas_directory_path, exchange_to_models_mappings
     )
 
