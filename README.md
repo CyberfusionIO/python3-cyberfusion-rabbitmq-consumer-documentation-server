@@ -1,6 +1,6 @@
 # python3-cyberfusion-rabbitmq-consumer-documentation-server
 
-Documentation server for RPC exchange responses and requests.
+Documentation server for [RabbitMQ consumer](https://github.com/CyberfusionIO/python3-cyberfusion-rabbitmq-consumer) (lean RPC framework).
 
 Features:
 
@@ -90,6 +90,12 @@ class DxExample(BaseModel):
 ```
 
 # Install
+
+## PyPI
+
+Run the following command to install the package from PyPI:
+
+    pip3 install python3-cyberfusion-rabbitmq-consumer-documentation-server
 
 ## Generic
 

@@ -54,14 +54,14 @@ def main() -> None:
 
     if args["create-client-models"]:
         output_directory_path = get_tmp_path()
-        os.mkdir(output_directory_path)
-
         schemas_directory_path = create_schemas_directory()
         exchange_to_models_mappings = create_exchange_to_models_mappings()
-
         schemas_files_paths = create_exchange_to_model_schemas(
             schemas_directory_path, exchange_to_models_mappings
         )
+
+        os.mkdir(output_directory_path)
+
         generate_pydantic_models_from_multiple_json_schemas(
             schemas_files_paths, output_directory_path
         )
