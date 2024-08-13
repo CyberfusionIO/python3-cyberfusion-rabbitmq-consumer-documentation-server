@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="python3-cyberfusion-rabbitmq-consumer-documentation-server",
     version="1.1.1",
-    description="Auto-generated documentation server for RPC exchange responses and requests.",
+    description="Documentation server for RabbitMQ consumer (lean RPC framework).",
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires=">=3.11",

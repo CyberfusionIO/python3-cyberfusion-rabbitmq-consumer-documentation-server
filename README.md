@@ -1,6 +1,6 @@
 # python3-cyberfusion-rabbitmq-consumer-documentation-server
 
-Documentation server for RPC exchange responses and requests.
+Documentation server for [RabbitMQ consumer](https://github.com/CyberfusionIO/python3-cyberfusion-rabbitmq-consumer) (lean RPC framework).
 
 Features:
 

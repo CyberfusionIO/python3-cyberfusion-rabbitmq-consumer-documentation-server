@@ -16,5 +16,5 @@ Depends: python3,
  python3-schema,
  python3-uvicorn,
  ${misc:Depends}
-Description: Auto-generated documentation server for RPC exchange responses and requests.
- Auto-generated documentation server for RPC exchange responses and requests.
+Description: Documentation server for RabbitMQ consumer (lean RPC framework).
+ Documentation server for RabbitMQ consumer (lean RPC framework).
