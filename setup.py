@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name="python3-cyberfusion-rabbitmq-consumer-documentation-server",
-    version="1.0",
+    version="1.0.1",
     description="Auto-generated documentation server for RPC exchange responses and requests.",
     author="William Edwards",
     author_email="wedwards@cyberfusion.nl",
