@@ -10,11 +10,11 @@ from cyberfusion.RabbitMQConsumerDocumentationServer.fastapi_server import (
 )
 from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
     ExchangeToModelsMapping,
-    _create_exchange_to_model_schemas,
-    _create_exchange_to_models_mappings,
     _create_head_schema,
     _create_html_documentation_directory,
-    _create_schemas_directory,
+    create_exchange_to_model_schemas,
+    create_exchange_to_models_mappings,
+    create_schemas_directory,
     generate_html_documentation,
 )
 
@@ -36,7 +36,7 @@ def html_documentation_directory_path() -> str:
 
 @pytest.fixture
 def schemas_directory_path() -> str:
-    return _create_schemas_directory()
+    return create_schemas_directory()
 
 
 @pytest.fixture
@@ -44,14 +44,14 @@ def schemas_files_paths(
     schemas_directory_path: str,
     exchange_to_models_mappings: List[ExchangeToModelsMapping],
 ) -> List[str]:
-    return _create_exchange_to_model_schemas(
+    return create_exchange_to_model_schemas(
         schemas_directory_path, exchange_to_models_mappings
     )
 
 
 @pytest.fixture
 def exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
-    exchange_to_models_mappings = _create_exchange_to_models_mappings()
+    exchange_to_models_mappings = create_exchange_to_models_mappings()
 
     # Ensure we're actually testing something
 
@@ -78,7 +78,7 @@ def server_create_documentation_mock(
         return_value=html_documentation_directory_path,
     )
     mocker.patch(
-        "cyberfusion.RabbitMQConsumerDocumentationServer.generator._create_schemas_directory",
+        "cyberfusion.RabbitMQConsumerDocumentationServer.generator.create_schemas_directory",
         return_value=schemas_directory_path,
     )
 

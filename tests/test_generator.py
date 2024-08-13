@@ -7,12 +7,12 @@ from cyberfusion.RabbitMQConsumerDocumentationServer import generator
 from cyberfusion.RabbitMQConsumerDocumentationServer.generator import (
     KEY_EXAMPLES,
     ExchangeToModelsMapping,
-    _create_exchange_to_model_schemas,
     _create_head_schema,
     _create_html_documentation,
     _create_html_documentation_directory,
-    _create_schemas_directory,
     _inject_default_examples,
+    create_exchange_to_model_schemas,
+    create_schemas_directory,
 )
 from cyberfusion.RabbitMQHandlers.exchanges.dx_example import (
     RPCResponseExample,
@@ -33,7 +33,7 @@ def test_generate_html_documentation() -> None:
 
 
 def test_create_schemas_directory() -> None:
-    assert os.path.isdir(_create_schemas_directory())
+    assert os.path.isdir(create_schemas_directory())
 
 
 def test_create_html_documentation_directory() -> None:
@@ -64,7 +64,7 @@ def test_create_exchange_to_model_schemas(
     schemas_directory_path: str,
     exchange_to_models_mappings: List[ExchangeToModelsMapping],
 ) -> None:
-    schemas_files_paths = _create_exchange_to_model_schemas(
+    schemas_files_paths = create_exchange_to_model_schemas(
         schemas_directory_path, exchange_to_models_mappings
     )
 

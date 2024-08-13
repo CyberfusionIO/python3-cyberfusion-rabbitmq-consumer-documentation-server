@@ -15,9 +15,11 @@ PREFIX_SCHEMAS = "/schemas"
 
 def get_app() -> FastAPI:
     """Get FastAPI app."""
-    html_file_path, html_documentation_directory, schemas_directory = (
-        generate_html_documentation()
-    )
+    (
+        html_file_path,
+        html_documentation_directory_path,
+        schemas_directory_path,
+    ) = generate_html_documentation()
 
     app = FastAPI(
         title="RabbitMQ Consumer Documentation Server",
@@ -30,21 +32,25 @@ def get_app() -> FastAPI:
         """Show HTML documentation."""
         return HTMLResponse(
             open(
-                os.path.join(html_documentation_directory, html_file_path), "r"
+                os.path.join(
+                    html_documentation_directory_path, html_file_path
+                ),
+                "r",
             ).read()
         )
 
     @app.get(PREFIX_SCHEMAS)  # type: ignore[misc]
     def list_schemas() -> JSONResponse:
         """List schemas."""
-        return JSONResponse(os.listdir(schemas_directory))
+        return JSONResponse(os.listdir(schemas_directory_path))
 
     app.mount(
-        PREFIX_SCHEMAS, StaticFiles(directory=schemas_directory, html=True)
+        PREFIX_SCHEMAS,
+        StaticFiles(directory=schemas_directory_path, html=True),
     )
     app.mount(  # Serve `js` + `css` + `font`
         "/",
-        StaticFiles(directory=html_documentation_directory, html=True),
+        StaticFiles(directory=html_documentation_directory_path, html=True),
     )
 
     return app

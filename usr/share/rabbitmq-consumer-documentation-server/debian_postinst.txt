@@ -1,0 +1,2 @@
+json-schema-for-humans==1.0.2
+datamodel-code-generator==0.25.9
