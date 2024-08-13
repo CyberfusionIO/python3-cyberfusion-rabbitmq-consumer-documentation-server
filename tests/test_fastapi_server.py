@@ -10,12 +10,12 @@ from cyberfusion.RabbitMQConsumerDocumentationServer.fastapi_server import (
 from tests._utilities import get_first_file_in_directory
 
 
-def test_html(
+def test_html_root(
     server_test_client: TestClient,
     server_create_documentation_mock: Tuple[str, str, str],
-    head_schema: str,
-    schemas_directory: str,
-    documentation_directory: str,
+    head_schema_path: str,
+    schemas_directory_path: str,
+    html_documentation_directory_path: str,
 ) -> None:
     response = server_test_client.get(PREFIX_HTML)
 
@@ -23,14 +23,14 @@ def test_html(
     assert response.text
 
 
-def test_html_subpath(
+def test_html_sub(
     server_test_client: TestClient,
     server_create_documentation_mock: Tuple[str, str, str],
-    head_schema: str,
-    schemas_directory: str,
-    documentation_directory: str,
+    head_schema_path: str,
+    schemas_directory_path: str,
+    html_documentation_directory_path: str,
 ) -> None:
-    file_ = get_first_file_in_directory(documentation_directory)
+    file_ = get_first_file_in_directory(html_documentation_directory_path)
 
     url = PREFIX_HTML + "/" + file_
 
@@ -40,14 +40,14 @@ def test_html_subpath(
     assert response.text
 
 
-def test_schemas(
+def test_schemas_root(
     server_test_client: TestClient,
     server_create_documentation_mock: Tuple[str, str, str],
-    head_schema: str,
-    schemas_directory: str,
-    documentation_directory: str,
+    head_schema_path: str,
+    schemas_directory_path: str,
+    html_documentation_directory_path: str,
 ) -> None:
-    amount_files = os.listdir(schemas_directory)
+    amount_files = os.listdir(schemas_directory_path)
 
     response = server_test_client.get(PREFIX_SCHEMAS)
 
@@ -55,14 +55,14 @@ def test_schemas(
     assert response.json() == amount_files
 
 
-def test_schema(
+def test_schema_single(
     server_test_client: TestClient,
     server_create_documentation_mock: Tuple[str, str, str],
-    head_schema: str,
-    schemas_directory: str,
-    documentation_directory: str,
+    head_schema_path: str,
+    schemas_directory_path: str,
+    html_documentation_directory_path: str,
 ) -> None:
-    file_ = get_first_file_in_directory(schemas_directory)
+    file_ = get_first_file_in_directory(schemas_directory_path)
 
     url = PREFIX_SCHEMAS + "/" + file_
 
