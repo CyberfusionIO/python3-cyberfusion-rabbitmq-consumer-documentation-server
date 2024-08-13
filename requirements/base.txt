@@ -1,0 +1,6 @@
+-r ../usr/share/rabbitmq-consumer-documentation-server/debian_postinst.txt
+docopt==0.6.2
+fastapi==0.92.0
+pydantic==1.10.4
+schema==0.7.5
+uvicorn==0.17.6
