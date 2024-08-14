@@ -14,11 +14,11 @@ setup(
     author="Cyberfusion",
     author_email="support@cyberfusion.io",
     url="https://github.com/CyberfusionIO/python3-cyberfusion-rabbitmq-consumer-documentation-server",
+    platforms=["linux"],
     packages=[
         "cyberfusion.RabbitMQConsumerDocumentationServer",
     ],
     package_dir={"": "src"},
-    platforms=["linux"],
     data_files=[],
     install_requires=[
         "docopt==0.6.2",
