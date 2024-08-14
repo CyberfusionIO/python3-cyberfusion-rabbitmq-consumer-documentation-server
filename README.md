@@ -134,9 +134,3 @@ No configuration is supported.
 ## Generate Pydantic models
 
 See '[Pydantic model generation](#pydantic-model-generation)'.
-
-# Tests
-
-Run tests with pytest:
-
-    pytest tests/
