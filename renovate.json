@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "local>shared/renovate-config:python-debian"
   ],
   "pip_requirements": {
     "fileMatch": [
@@ -9,11 +9,5 @@
       "requirements/test.txt",
       "usr/share/rabbitmq-consumer-documentation-server/debian_postinst.txt"
     ]
-  },
-  "pre-commit": {
-    "enabled": true
-  },
-  "pip_setup": {
-    "enabled": false
   }
 }
