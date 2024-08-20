@@ -32,7 +32,7 @@ from cyberfusion.RabbitMQConsumerDocumentationServer.utilities import (
 )
 
 
-def get_args() -> docopt.Dict:  # pragma: no cover
+def get_args() -> docopt.Dict:
     """Get docopt args."""
     return docopt.docopt(__doc__)
 
