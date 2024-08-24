@@ -32,9 +32,7 @@ def get_app() -> FastAPI:
         """Show HTML documentation."""
         return HTMLResponse(
             open(
-                os.path.join(
-                    html_documentation_directory_path, html_file_path
-                ),
+                os.path.join(html_documentation_directory_path, html_file_path),
                 "r",
             ).read()
         )

@@ -83,12 +83,8 @@ def create_exchange_to_models_mappings() -> List[ExchangeToModelsMapping]:
     modules = import_installed_handler_modules()
 
     for module in modules:
-        request_model = get_exchange_handler_class_request_model(
-            module.Handler
-        )
-        response_model = get_exchange_handler_class_response_model(
-            module.Handler
-        )
+        request_model = get_exchange_handler_class_request_model(module.Handler)
+        response_model = get_exchange_handler_class_response_model(module.Handler)
 
         response_model = _inject_default_examples(response_model)
 
@@ -157,9 +153,7 @@ def _create_head_schema(
 
     # Write head schema
 
-    head_schema_path = os.path.join(
-        schemas_directory_path, NAME_SCHEMA_HEAD + ".json"
-    )
+    head_schema_path = os.path.join(schemas_directory_path, NAME_SCHEMA_HEAD + ".json")
 
     with open(head_schema_path, "w") as f:
         f.write(json.dumps(head_schema))
@@ -167,9 +161,7 @@ def _create_head_schema(
     return head_schema_path
 
 
-def _create_html_documentation(
-    schema: str, schemas_directory_path: str
-) -> str:
+def _create_html_documentation(schema: str, schemas_directory_path: str) -> str:
     """Create HTML documentation (HTML based on JSON schemas)."""
 
     # json-schema-for-humans provides a Python API, but not for creating
@@ -207,9 +199,7 @@ def generate_html_documentation() -> Tuple[str, str, str]:
     # Create head schema, which references all aforementioned schemas. Pydantic
     # v1 does not support creating a single JSON schema for multiple models.
 
-    head_schema_path = _create_head_schema(
-        schemas_files_paths, schemas_directory_path
-    )
+    head_schema_path = _create_head_schema(schemas_files_paths, schemas_directory_path)
 
     # Create a single documentation page for all schemas, by referencing the
     # head schema that includes them

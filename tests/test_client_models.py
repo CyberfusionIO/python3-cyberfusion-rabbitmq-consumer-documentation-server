@@ -19,9 +19,7 @@ def test_generate_pydantic_models_from_single_json_schema(
 
     assert not os.path.isfile(output_file_path)
 
-    generate_pydantic_models_from_single_json_schema(
-        json_schema_path, output_file_path
-    )
+    generate_pydantic_models_from_single_json_schema(json_schema_path, output_file_path)
 
     assert os.path.isfile(output_file_path)
 

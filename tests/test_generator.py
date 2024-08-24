@@ -25,9 +25,7 @@ def test_generate_html_documentation() -> None:
     )
 
     assert os.path.isdir(html_documentation_directory_path)
-    assert os.path.isfile(
-        os.path.join(html_documentation_directory_path, html_file)
-    )
+    assert os.path.isfile(os.path.join(html_documentation_directory_path, html_file))
 
     assert os.path.isdir(schemas_directory_path)
 
@@ -55,9 +53,7 @@ def test_inject_default_examples_present() -> None:
 
     response = _inject_default_examples(RPCResponseExample)
 
-    assert (
-        len(response.Config.schema_extra[KEY_EXAMPLES]) == ORIGINAL_COUNT + 1
-    )
+    assert len(response.Config.schema_extra[KEY_EXAMPLES]) == ORIGINAL_COUNT + 1
 
 
 def test_create_exchange_to_model_schemas(
@@ -74,9 +70,7 @@ def test_create_exchange_to_model_schemas(
         with open(schema_file_path, "r") as f:
             schema = json.loads(f.read())
 
-        assert (
-            schema["title"] == exchange_to_models_mappings[idx].exchange_name
-        )
+        assert schema["title"] == exchange_to_models_mappings[idx].exchange_name
         assert schema["type"] == "object"
         assert schema["properties"] == {
             "request_model": {
@@ -102,9 +96,7 @@ def test_create_exchange_to_model_schemas(
 def test_create_head_schema(
     schemas_directory_path: str, schemas_files_paths: List[str]
 ) -> None:
-    head_schema_path = _create_head_schema(
-        schemas_files_paths, schemas_directory_path
-    )
+    head_schema_path = _create_head_schema(schemas_files_paths, schemas_directory_path)
 
     with open(head_schema_path, "r") as f:
         head_schema = json.loads(f.read())
