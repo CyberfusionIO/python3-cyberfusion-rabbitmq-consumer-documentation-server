@@ -50,6 +50,4 @@ def generate_pydantic_models_from_multiple_json_schemas(
             + ".py"
         )
 
-        generate_pydantic_models_from_single_json_schema(
-            json_schema_path, output_path
-        )
+        generate_pydantic_models_from_single_json_schema(json_schema_path, output_path)

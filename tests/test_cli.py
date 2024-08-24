@@ -7,9 +7,7 @@ from pytest_mock import MockerFixture
 from cyberfusion.RabbitMQConsumerDocumentationServer import cli
 
 
-def test_create_client_models(
-    mocker: MockerFixture, capsys: CaptureFixture
-) -> None:
+def test_create_client_models(mocker: MockerFixture, capsys: CaptureFixture) -> None:
     mocker.patch(
         "cyberfusion.RabbitMQConsumerDocumentationServer.cli.get_args",
         return_value=docopt.docopt(
